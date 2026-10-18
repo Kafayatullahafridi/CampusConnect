@@ -1,0 +1,13 @@
+import { Router } from 'express';
+import { requireAuth } from '../middleware/auth.js';
+import { parseBody, volunteerSchema, volunteerUpdateSchema } from '../validators/community.validators.js';
+import { createOpportunity, deleteOpportunity, getOpportunity, joinOpportunity, leaveOpportunity, listOpportunities, updateOpportunity } from '../controllers/volunteer.controller.js';
+const router = Router();
+router.get('/', listOpportunities);
+router.get('/:id', getOpportunity);
+router.post('/', requireAuth, parseBody.bind(null, volunteerSchema), createOpportunity);
+router.patch('/:id', requireAuth, parseBody.bind(null, volunteerUpdateSchema), updateOpportunity);
+router.delete('/:id', requireAuth, deleteOpportunity);
+router.post('/:id/join', requireAuth, joinOpportunity);
+router.delete('/:id/join', requireAuth, leaveOpportunity);
+export default router;

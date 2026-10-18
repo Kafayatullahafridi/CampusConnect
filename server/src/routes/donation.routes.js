@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import { requireAuth } from '../middleware/auth.js';
+import { parseBody, donationSchema, donationUpdateSchema } from '../validators/community.validators.js';
+import { claimDonation, createDonation, deleteDonation, getDonation, listDonations, updateDonation } from '../controllers/donation.controller.js';
+const router = Router();
+router.get('/', listDonations);
+router.get('/:id', getDonation);
+router.post('/', requireAuth, parseBody.bind(null, donationSchema), createDonation);
+router.patch('/:id', requireAuth, parseBody.bind(null, donationUpdateSchema), updateDonation);
+router.delete('/:id', requireAuth, deleteDonation);
+router.post('/:id/claim', requireAuth, claimDonation);
+export default router;

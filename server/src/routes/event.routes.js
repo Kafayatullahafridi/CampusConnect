@@ -1,0 +1,13 @@
+import { Router } from 'express';
+import { requireAuth } from '../middleware/auth.js';
+import { parseBody, eventSchema, eventUpdateSchema } from '../validators/community.validators.js';
+import { attendEvent, createEvent, deleteEvent, getEvent, leaveEvent, listEvents, updateEvent } from '../controllers/event.controller.js';
+const router = Router();
+router.get('/', listEvents);
+router.get('/:id', getEvent);
+router.post('/', requireAuth, parseBody.bind(null, eventSchema), createEvent);
+router.patch('/:id', requireAuth, parseBody.bind(null, eventUpdateSchema), updateEvent);
+router.delete('/:id', requireAuth, deleteEvent);
+router.post('/:id/attend', requireAuth, attendEvent);
+router.delete('/:id/attend', requireAuth, leaveEvent);
+export default router;

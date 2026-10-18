@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import { requireAuth } from '../middleware/auth.js';
+import { parseBody, lostFoundSchema, lostFoundUpdateSchema } from '../validators/community.validators.js';
+import { createLostFound, deleteLostFound, getLostFound, listLostFound, updateLostFound } from '../controllers/lost-found.controller.js';
+const router = Router();
+router.get('/', listLostFound);
+router.get('/:id', getLostFound);
+router.post('/', requireAuth, parseBody.bind(null, lostFoundSchema), createLostFound);
+router.patch('/:id', requireAuth, parseBody.bind(null, lostFoundUpdateSchema), updateLostFound);
+router.delete('/:id', requireAuth, deleteLostFound);
+export default router;
